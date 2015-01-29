@@ -1,59 +1,34 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
+Plugin 'bling/vim-airline'
 Plugin 'tpope/vim-fugitive'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdtree'
 Bundle 'Shougo/neocomplete.git'
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'kien/ctrlp.vim'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'jeetsukumaran/vim-buffergator'
-
+Plugin 'airblade/vim-gitgutter'
+Plugin 'chriskempson/base16-vim'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'bkad/CamelCaseMotion'
+Plugin 'danro/rename.vim'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-scripts/EasyGrep'
+Plugin 'thoughtbot/vim-rspec'
+Bundle 'jgdavey/tslime.vim'
 
+Plugin 'pangloss/vim-javascript'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'AndrewRadev/vim-eco'
 Plugin 'elzr/vim-json'
 
-" plugin from http://vim-scripts.org/vim/scripts.html
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-
-" plugin on GitHub repo
-" Plugin 'L9'
-
-" plugin not on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-" filetype plugin on
-
-" Brief help
-" :PluginList          - list configured plugins
-" :PluginInstall(!)    - install (update) plugins
-" :PluginSearch(!) foo - search (or refresh cache first) for foo
-" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
 
 " Colors
@@ -61,6 +36,8 @@ set t_Co=256
 syntax on
 set background=dark
 colorscheme solarized
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=green
 
 " Tab Size
 set smartindent
@@ -78,12 +55,15 @@ set laststatus=2
 set number
 
 " Airline
-" let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
-" Powerline
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+" Ruler
+set colorcolumn=120
+set nowrap
+
+" CoffeeScript
+let g:coffee_lint_options = '-f ~/coffeelint.json'
 
 "
 " Bindings
@@ -108,19 +88,50 @@ map <C-t><down> :tabl<cr>
 " open a new tab with ctrl-t
 nnoremap <C-t> :tabnew<CR>
 
-" cycle tabs left and right with ctrl
-nnoremap <C-h> :tabp<CR>
-nnoremap <C-l> :tabn<CR>
+" pane navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " Completion
 let g:neocomplete#enable_at_startup = 1
 
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
+
 " Clipboard
-set clipboard=unnamed
+" set clipboard=unnamed
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_max_files=0
+set wildignore+=*/.git/*,*.scssc
 
 " Nerdtree
-map <C-N> :NERDTreeToggle<CR>
+map <C-e> :NERDTreeToggle<CR>
+nmap ≥ :NERDTreeFind<CR>
+
+" CamelCaseMotion
+map „ <Plug>CamelCaseMotion_w
+map ı <Plug>CamelCaseMotion_b
+map ´ <Plug>CamelCaseMotion_e
+
+" RSpec
+let g:rspec_command = "zeus rspec {spec}"
+let g:rspec_runner = "os_x_iterm"
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
