@@ -12,20 +12,28 @@ Bundle 'Shougo/neocomplete.git'
 Plugin 'kien/ctrlp.vim'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'chriskempson/base16-vim'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'bkad/CamelCaseMotion'
 Plugin 'danro/rename.vim'
 Plugin 'tpope/vim-rails'
 Plugin 'vim-scripts/EasyGrep'
 Plugin 'thoughtbot/vim-rspec'
 Bundle 'jgdavey/tslime.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+Plugin 'majutsushi/tagbar'
+Bundle 'lukaszkorecki/CoffeeTags'
+Plugin 'tpope/vim-commentary'
+
+Plugin 'chriskempson/base16-vim'
+Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'AndrewRadev/vim-eco'
 Plugin 'elzr/vim-json'
+Bundle 'groenewege/vim-less'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -69,26 +77,30 @@ let g:coffee_lint_options = '-f ~/coffeelint.json'
 " Bindings
 
 " Buffers
-
+set hidden
 " close buffer
 nmap <leader>d :bp<bar>sp<bar>bn<bar>bd<CR>
-
 " close all buffers
 nmap <leader>D :bufdo bd<CR>
-
 " Switch between buffers
 noremap <S-tab> :bp<CR>
 noremap <tab> :bn<CR>
 
 " Tabs
+map <C-up> :tabn<cr>
+map <C-down> :tabp<cr>
+map <C-left> :tabr<cr>
+map <C-right> :tabl<cr>
 
-map <C-t><up> :tabr<cr>
-map <C-t><down> :tabl<cr>
-
-" open a new tab with ctrl-t
 nnoremap <C-t> :tabnew<CR>
 
-" pane navigation
+" Tab names as directories
+function! GuiTabLabel()
+  return substitute( expand( '%:p' ), '.\+\/\(.\+\)\/.\+', '\1', '' )
+endfunction
+set guitablabel=%{GuiTabLabel()}
+
+" Pane navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -96,6 +108,9 @@ nnoremap <C-H> <C-W><C-H>
 
 " Completion
 let g:neocomplete#enable_at_startup = 1
+
+" Multiple Cursors
+let g:multi_cursor_exit_from_insert_mode = 0
 
 function! Multiple_cursors_before()
   if exists(':NeoCompleteLock')==2
@@ -109,14 +124,11 @@ function! Multiple_cursors_after()
   endif
 endfunction
 
-" Clipboard
-" set clipboard=unnamed
-
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_max_files=0
-set wildignore+=*/.git/*,*.scssc
+set wildignore+=*/.git/*,*.scssc,*/tmp/*
 
 " Nerdtree
 map <C-e> :NERDTreeToggle<CR>
@@ -135,3 +147,28 @@ map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
+
+" EasyGrep
+let g:EasyGrepFilesToExclude='tmp'
+let g:EasyGrepRecursive=1
+let g:EasyGrepCommand=1
+let g:EasyGrepMode=2
+
+map <F9> :GrepOptions<CR>
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
+
+map <F6> :SyntasticCheck<CR>
+map <F7> :SyntasticToggleMode<CR>
+
+" Tags
+map <F8> :TagbarToggle<CR>
+let g:CoffeeAutoTagIncludeVars=1
