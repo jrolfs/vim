@@ -128,10 +128,11 @@ function! Multiple_cursors_after()
 endfunction
 
 " CtrlP
-let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_max_files=0
 set wildignore+=*/.git/*,*.scssc,*/tmp/*
+
+nnoremap <Leader>p :CtrlP<CR>
 
 " Nerdtree
 map <C-e> :NERDTreeToggle<CR>
