@@ -143,14 +143,8 @@ map „ <Plug>CamelCaseMotion_w
 map ı <Plug>CamelCaseMotion_b
 map ´ <Plug>CamelCaseMotion_e
 
-" RSpec
-let g:rspec_command = "zeus rspec {spec}"
-let g:rspec_runner = "os_x_iterm"
-
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>a :call Send_to_Tmux("zeus rspec ".expand("%")."\n")<CR>
+map <Leader>s :call Send_to_Tmux("zeus rspec ".expand("%").":".line(".")."\n")<CR>
 
 " EasyGrep
 let g:EasyGrepFilesToExclude='tmp'
