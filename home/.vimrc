@@ -4,7 +4,7 @@ filetype off " required
 " Leader
 let mapleader=","
 
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/Vundle.vim
 call vundle#begin()
 
 Plugin 'bling/vim-airline'
