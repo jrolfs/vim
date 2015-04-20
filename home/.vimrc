@@ -1,5 +1,8 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible " be iMproved, required
+filetype off " required
+
+" Leader
+let mapleader=","
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
