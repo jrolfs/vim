@@ -26,6 +26,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'majutsushi/tagbar'
 Bundle 'lukaszkorecki/CoffeeTags'
 Plugin 'tpope/vim-commentary'
+Plugin 'godlygeek/tabular'
 
 Plugin 'chriskempson/base16-vim'
 Plugin 'altercation/vim-colors-solarized'
