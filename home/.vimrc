@@ -37,10 +37,10 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'AndrewRadev/vim-eco'
 Plugin 'elzr/vim-json'
 Bundle 'groenewege/vim-less'
+Bundle 'chase/vim-ansible-yaml'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
 
 " Colors
 set t_Co=256
